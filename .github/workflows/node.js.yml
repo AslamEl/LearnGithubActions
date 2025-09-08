@@ -28,6 +28,7 @@ jobs:
 
   gitleaks-scan:
     runs-on: ubuntu-latest
+    needs: compile
 
     steps:
        - name: Checkout Code
