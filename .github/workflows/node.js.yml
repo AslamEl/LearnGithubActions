@@ -78,6 +78,7 @@ jobs:
              -Dsonar.projectKey=AslamEl_LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+             -Dsonar.branch.name=${{ github.ref_name }}
          
 
   sonar-backend:
@@ -100,6 +101,7 @@ jobs:
              -Dsonar.projectKey=AslamEl_LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+             -Dsonar.branch.name=${{ github.ref_name }}
          
          
           
