@@ -75,7 +75,7 @@ jobs:
            projectBaseDir: frontend
            args: >
              -Dsonar.organization=aslamel
-             -Dsonar.projectKey=aslamel
+             -Dsonar.projectKey=LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
          
@@ -97,7 +97,7 @@ jobs:
            projectBaseDir: backend
            args: >
              -Dsonar.organization=aslamel
-             -Dsonar.projectKey=aslamel
+             -Dsonar.projectKey=LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
          
