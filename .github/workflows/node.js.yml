@@ -67,6 +67,10 @@ jobs:
 
        - name: SonarCloud Scan
          uses: sonarsource/sonarcloud-github-action@v5.0.0
+         env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
          with:
            projectBaseDir: frontend
            args: >
@@ -74,9 +78,7 @@ jobs:
              -Dsonar.projectKey=LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
-         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+         
 
   sonar-backend:
       runs-on: ubuntu-latest
@@ -88,6 +90,9 @@ jobs:
 
        - name: SonarCloud Scan
          uses: sonarsource/sonarcloud-github-action@v5.0.0
+         env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
          with:
            projectBaseDir: backend
            args: >
@@ -95,9 +100,7 @@ jobs:
              -Dsonar.projectKey=LearnGithubActions
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
-         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+         
          
           
     
