@@ -56,6 +56,49 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+
+  sonar-frontend:
+      runs-on: ubuntu-latest
+      needs: trivy_fs_scan
+
+      steps:
+       - name: Checkout Code
+         uses: actions/checkout@v4
+
+       - name: SonarCloud Scan
+         uses: sonarsource/sonarcloud-github-action@v5.0.0
+         with:
+           projectBaseDir: frontend
+           args: >
+             -Dsonar.organization=aslamel
+             -Dsonar.projectKey=LearnGithubActions
+             -Dsonar.sources=.
+             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+         env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+  sonar-backend:
+      runs-on: ubuntu-latest
+      needs: sonar-frontend
+
+      steps:
+       - name: Checkout Code
+         uses: actions/checkout@v4
+
+       - name: SonarCloud Scan
+         uses: sonarsource/sonarcloud-github-action@v5.0.0
+         with:
+           projectBaseDir: backend
+           args: >
+             -Dsonar.organization=aslamel
+             -Dsonar.projectKey=LearnGithubActions
+             -Dsonar.sources=.
+             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+         env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+         
           
     
 
