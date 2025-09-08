@@ -22,7 +22,7 @@ jobs:
           find . -name "*.js" -exec node --check {} +
       - name: Backend Complitaion (Syntax )
         run: |
-          cd frontend
+          cd backend
           find . -name "*.js" -exec node --check {} +
       
       
