@@ -7,7 +7,22 @@ const tasksRoutes = require('./routes/tasks');
 
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = [
+  'http://localhost:5173',  
+  'https://your-production-domain.com' 
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
+
 app.use(express.json());
 
 
