@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -34,11 +36,11 @@ jobs:
     steps:
        - name: Checkout Code
          uses: actions/checkout@v4
-       - name: Gitleaks Setup
-         uses: gitleaks/gitleaks-action@v2
          with:
           fetch-depth: 0 
-         
+       - name: Gitleaks Setup
+         uses: gitleaks/gitleaks-action@v2
+        
        - name: Gitleaks Scan
          run: |
            gitleaks detect --source ./frontend --exit-code 1
@@ -50,6 +52,8 @@ jobs:
     steps:
        - name: Checkout Code
          uses: actions/checkout@v4
+         with:
+          fetch-depth: 0 
        - name: Run Trivy vulnerability scanner
          uses: aquasecurity/trivy-action@0.28.0
          with:
@@ -67,6 +71,8 @@ jobs:
       steps:
        - name: Checkout Code
          uses: actions/checkout@v4
+         with:
+          fetch-depth: 0 
 
        - name: SonarCloud Scan
          uses: sonarsource/sonarcloud-github-action@v5.0.0
@@ -91,6 +97,8 @@ jobs:
       steps:
        - name: Checkout Code
          uses: actions/checkout@v4
+         with:
+          fetch-depth: 0 
 
        - name: SonarCloud Scan
          uses: sonarsource/sonarcloud-github-action@v5.0.0
