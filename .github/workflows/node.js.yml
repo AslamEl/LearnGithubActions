@@ -113,6 +113,72 @@ jobs:
              -Dsonar.sources=.
              -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
              -Dsonar.branch.name=${{ github.ref_name }}
+
+  build_backend_docker_image_and_push:
+      runs-on: ubuntu-latest
+      needs: sonar-backend
+
+      steps:
+       - name: Checkout Code
+         uses: actions/checkout@v4
+         with:
+          fetch-depth: 0 
+       - name: Login to Docker Hub
+         uses: docker/login-action@v3
+         with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+           
+       - name: Set up QEMU
+         uses: docker/setup-qemu-action@v3
+
+      
+       - name: Set up Docker Buildx
+         uses: docker/setup-buildx-action@v3
+
+       - name: Build and push
+         uses: docker/build-push-action@v6
+         with:
+          context: ./backend
+          push: true
+          tags: aslam22/backend:latest
+          file: ./backend/Dockerfile
+          
+  build_frontend_docker_image_and_push:
+      runs-on: ubuntu-latest
+      needs: sonar-backend
+
+      steps:
+       - name: Checkout Code
+         uses: actions/checkout@v4
+         with:
+          fetch-depth: 0 
+       - name: Login to Docker Hub
+         uses: docker/login-action@v3
+         with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+           
+       - name: Set up QEMU
+         uses: docker/setup-qemu-action@v3
+
+      
+       - name: Set up Docker Buildx
+         uses: docker/setup-buildx-action@v3
+
+       - name: Build and push
+         uses: docker/build-push-action@v6
+         with:
+          context: ./frontend
+          push: true
+          tags: aslam22/frontend:latest
+          file: ./backend/Dockerfile
+
+          
+      
+     
+      
+    
          
          
           
