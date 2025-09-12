@@ -1,3 +1,24 @@
+# Ignore node modules (they are installed inside container)
 node_modules
-.git
+npm-debug.log
+yarn-error.log
+
+# Ignore local environment files
 .env
+.env.local
+.env.*.local
+
+# Ignore git and CI/CD files
+.git
+.gitignore
+.dockerignore
+
+# Ignore tests and docs
+tests
+*.md
+docs
+
+# Ignore editor/IDE configs
+.vscode
+.idea
+*.swp
