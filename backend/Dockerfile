@@ -10,7 +10,9 @@ COPY package*.json ./
 RUN npm ci --only=production --ignore-scripts
 
 
-COPY . .
+COPY routes ./routes
+COPY models ./models
+COPY server.js ./
 
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
