@@ -172,7 +172,7 @@ jobs:
           context: ./frontend
           push: true
           tags: aslam22/frontend:latest
-          file: ./backend/Dockerfile
+          file: ./frontend/Dockerfile
 
           
       
