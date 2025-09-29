@@ -2,7 +2,7 @@ name: Node.js CICD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "none" ]
   pull_request:
     branches: [ "main" ]
 
@@ -217,10 +217,11 @@ jobs:
   
       - name: Deploy Backend to Railway
         working-directory: backend
-        run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }}
+        run: |
+          railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+          railway up --service=${{ secrets.RAILWAY_SERVICE_ID }}
         env:
-              RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
-              RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
 
 
 
