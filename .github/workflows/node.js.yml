@@ -215,17 +215,12 @@ jobs:
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
   
-      - name: Link Backend Project
-        working-directory: backend
-        run: railway link --project ${{ secrets.RAILWAY_PROJECT_ID }} --service ${{ secrets.RAILWAY_SERVICE_ID }}
-        env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
-
       - name: Deploy Backend to Railway
         working-directory: backend
-        run: railway up --ci
+        run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }}
         env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+              RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+              RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
 
 
