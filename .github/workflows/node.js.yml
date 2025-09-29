@@ -209,14 +209,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: trivy_image_scan
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Deploy to Railway
-      uses: bervProject/railway-deploy@main
-      with:
-        railway_token: ${{ secrets.RAILWAY_API_KEY }}
-        service: ${{ secrets.RAILWAY_SERVICE_ID }}
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@main
+        with:
+          service: ${{ secrets.RAILWAY_SERVICE_ID }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
 
 
 
