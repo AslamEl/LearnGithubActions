@@ -212,17 +212,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
     - name: Install Railway CLI
-      run: |
-        sudo curl -fsSL https://railway.app/install.sh | sudo sh
-        sudo mv /root/.railway/bin/railway /usr/local/bin/
-        railway --version
+      run: npm install -g @railway/cli
 
     - name: Deploy Backend to Railway
       working-directory: backend
-      run: |
-        railway link ${{ secrets.RAILWAY_PROJECT_ID }}
-        railway up --service=${{ secrets.RAILWAY_SERVICE_ID }} --detach
+      run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }}
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
 
