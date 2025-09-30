@@ -212,14 +212,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
   
-      - name: Install Railway
-        run: npm i -g @railway/cli
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
   
-      - name: Deploy to Railway
-        working-directory: backend
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }} --detach
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+  
+      - name: Deploy Backend to Railway
+        working-directory: ./backend
+        run: |
+          export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
+          railway up --service=${{ secrets.RAILWAY_SERVICE_ID }} --detach
           
   deploy_frontend_vercel:
     runs-on: ubuntu-latest
@@ -233,29 +238,33 @@ jobs:
         with:
           node-version: '20'
   
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+  
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
   
       - name: Pull Vercel Environment Information
         working-directory: ./frontend
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
   
       - name: Build Project Artifacts
         working-directory: ./frontend
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
   
       - name: Deploy Project Artifacts to Vercel
         working-directory: ./frontend
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
           
       
