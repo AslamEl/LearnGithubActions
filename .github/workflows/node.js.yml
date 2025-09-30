@@ -227,29 +227,13 @@ jobs:
           railway up --service=${{ secrets.RAILWAY_SERVICE_ID }} --detach
           
   deploy_frontend_vercel:
+    name: Deploy to Vercel
     runs-on: ubuntu-latest
-    needs: trivy_image_scan
+    needs: deploy_backend_railway
+    if: success()          
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-  
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-  
-      - name: Install Dependencies
-        working-directory: ./frontend
-        run: npm ci
-  
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-  
-      - name: Deploy to Vercel
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: vercel --cwd=frontend --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Trigger Vercel Deploy Hook
+        run: curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_y1UhGybvnFX339ZtbYKG8UfmHauL/lQCm81an4I
 
 
 
