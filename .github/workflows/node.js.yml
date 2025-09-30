@@ -212,26 +212,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
   
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@main
         with:
-          node-version: '20'
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: ${{ secrets.RAILWAY_SERVICE_ID }}
+          working-directory: backend
+          
+  deploy_frontend_vercel:
+    runs-on: ubuntu-latest
+    needs: trivy_image_scan
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
   
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-  
-      - name: Link Railway Project
-        working-directory: backend
-        run: railway link --project=${{ secrets.RAILWAY_PROJECT_ID }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-  
-      - name: Deploy Backend to Railway
-        working-directory: backend
-        run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: frontend
+          vercel-args: '--prod'
 
           
       
