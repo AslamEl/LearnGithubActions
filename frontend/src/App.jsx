@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import Footer from "./components/Footer";
 import { getTasks, createTask, updateTask, deleteTask } from "./services/taskService";
 
 export default function App() {
@@ -55,6 +56,7 @@ export default function App() {
           onEdit={handleEdit}
           onDelete={handleDelete}
         />
+        <Footer />
       </div>
     </div>
   );
